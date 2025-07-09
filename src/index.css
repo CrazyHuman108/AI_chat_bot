@@ -177,6 +177,13 @@ All colors MUST be HSL.
     100% { transform: scale(1); opacity: 1; }
   }
 
+  @keyframes doctor-speaking {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.02); }
+    50% { transform: scale(1.01); }
+    75% { transform: scale(1.03); }
+  }
+
   .animate-breathing {
     animation: breathing 3s ease-in-out infinite;
   }
@@ -239,5 +246,9 @@ All colors MUST be HSL.
 
   .animate-message-pop {
     animation: message-pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  .animate-doctor-speaking {
+    animation: doctor-speaking 0.8s ease-in-out infinite;
   }
 }

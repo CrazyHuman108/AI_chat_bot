@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { AvatarState } from './ChatBot';
+import doctorListening from '../assets/doctor-listening.png';
+import doctorResponding from '../assets/doctor-responding.png';
 
 interface ChatAvatarProps {
   state: AvatarState;
@@ -53,51 +55,51 @@ const ChatAvatar: React.FC<ChatAvatarProps> = ({ state }) => {
     }
   };
 
+  const getDoctorImage = () => {
+    if (state === 'responding') {
+      return doctorResponding;
+    }
+    return doctorListening;
+  };
+
+  const getStatusText = () => {
+    switch (state) {
+      case 'listening':
+        return 'Listening';
+      case 'thinking':
+        return 'Thinking';
+      case 'responding':
+        return 'Responding';
+      case 'timeout':
+        return 'Still there?';
+      default:
+        return 'Ready to help';
+    }
+  };
+
   return (
     <div className={getAvatarClasses()}>
       {/* Main Avatar Container */}
       <div className="relative w-48 h-48">
         {/* Background Glow */}
-        <div className="absolute inset-0 bg-white/20 rounded-full blur-xl animate-pulse-glow"></div>
+        <div className="absolute inset-0 bg-white/20 rounded-lg blur-xl animate-pulse-glow"></div>
         
-        {/* Avatar Circle */}
-        <div className="relative w-full h-full bg-white rounded-full shadow-2xl overflow-hidden border-4 border-white/30">
-          {/* Face */}
-          <svg viewBox="0 0 24 24" className="w-full h-full p-6">
-            {/* Head circle */}
-            <circle cx="12" cy="12" r="10" fill="#fbbf24" stroke="#f59e0b" strokeWidth="0.5"/>
-            
-            {/* Eyes */}
-            <g className={getEyeAnimation()}>
-              <circle cx="9" cy="10" r="1.5" fill="#1f2937"/>
-              <circle cx="15" cy="10" r="1.5" fill="#1f2937"/>
-              {/* Eye highlights */}
-              <circle cx="9.5" cy="9.5" r="0.5" fill="white"/>
-              <circle cx="15.5" cy="9.5" r="0.5" fill="white"/>
-            </g>
-            
-            {/* Eyebrows */}
-            <path d="M7 8c1-0.5 3-0.5 4 0" stroke="#1f2937" strokeWidth="0.8" strokeLinecap="round" fill="none"/>
-            <path d="M13 8c1-0.5 3-0.5 4 0" stroke="#1f2937" strokeWidth="0.8" strokeLinecap="round" fill="none"/>
-            
-            {/* Mouth */}
-            <path 
-              d={getMouthShape()} 
-              stroke="#1f2937" 
-              strokeWidth="1" 
-              strokeLinecap="round" 
-              fill={state === 'responding' ? '#dc2626' : 'none'}
-              className={state === 'responding' ? 'animate-mouth-talk' : ''}
-            />
-            
-            {/* Cheeks (blush) */}
-            {(state === 'listening' || state === 'timeout') && (
-              <>
-                <circle cx="6" cy="13" r="1.5" fill="#fecaca" opacity="0.6"/>
-                <circle cx="18" cy="13" r="1.5" fill="#fecaca" opacity="0.6"/>
-              </>
-            )}
-          </svg>
+        {/* Doctor Avatar Image */}
+        <div className="relative w-full h-full rounded-lg shadow-2xl overflow-hidden border-4 border-white/30 bg-gradient-to-br from-blue-500 to-blue-600">
+          <img 
+            src={getDoctorImage()} 
+            alt={`Doctor ${getStatusText()}`}
+            className={`w-full h-full object-cover transition-all duration-500 ${
+              state === 'responding' ? 'animate-doctor-speaking' : ''
+            }`}
+          />
+          
+          {/* Status Badge */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+            <div className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+              {getStatusText()}
+            </div>
+          </div>
         </div>
         
         {/* Thinking dots */}
