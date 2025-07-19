@@ -11,7 +11,7 @@ class ChatService {
 
   constructor() {
     // Replace with your actual Python backend URL
-    this.baseUrl = process.env.VITE_BACKEND_URL || 'http://localhost:8000';
+    this.baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
   }
 
   async sendMessage(message: string, isOption: boolean = false): Promise<ChatResponse> {
